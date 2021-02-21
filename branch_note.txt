@@ -1,0 +1,27 @@
+
+
+2021年2月21日 11:51:04
+- maindev 是主线，所有大小feature进入这里，4-5个团队在同时开发
+
+- sop_A    稳定分支，A时间节点后，非bugfix不能进入
+- sop_B	   稳定分支，B时间节点后，非bugfix不能进入
+- SOP      软件冻结
+
+-feature_A  大feature，开发用时较久，会影响主线的稳定性，会和maindev平台某些地方耦合
+
+见图requirement.
+
+
+这里存在一个矛盾点：
+因时间节点紧张，maindev想求稳定，想sop_B后再让feature_A进；而feature_A考虑sop_B到最后的SOP时间较短，想早些进maindev，一起开发测试,有问题早发现早治疗。
+
+于是商量,
+方案A:
+新建fa分支，用于featureA的开发，定期rebase maindev的内容。maindev和fa分支同时测试。
+maindev 等sop_B后，再陆续合入fa。
+
+个人存在几个疑问，记录下来，在这里测试下。
+1. fa定期rebase maindev内容，到后面fa要合入maindev时，还能否合入？
+2. 开发过程中，maindev的bugfix，也推到fa分支，整个流程是否走的通？
+
+3.最佳实现方式是啥？
