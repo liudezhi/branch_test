@@ -10,3 +10,6 @@ maindev：patch 4
 
 2021年2月22日 00:17:45
 maindev_1: patch 5
+
+2021年2月22日 00:18:49
+maindev_1: patch 6
