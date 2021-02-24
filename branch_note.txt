@@ -22,6 +22,29 @@ maindev 等sop_B后，再陆续合入fa。
 
 个人存在几个疑问，记录下来，在这里测试下。
 1. fa定期rebase maindev内容，到后面fa要合入maindev时，还能否合入？
+	=》 经maindev和fa分支的验证，
+		1 定期 git rebase fa,可以把maindev同步到fa
+		2 最后 git rebase maindev时，出问题了，出现了双份 原来maindev的提交！！！！
+			见 rebase has issue.
 2. 开发过程中，maindev的bugfix，也推到fa分支，整个流程是否走的通？
+	=》用git merge 来合并分支。推不推到第二个分支都行，其实推到一个分支上，然后merge是很好的。
 
 3.最佳实现方式是啥？
+
+	=》 很幸运，找到了。
+	目前感觉用git merge 来合并分支就能很好的解决这个问题了。
+	在这个问题上，git rebase要乱套。
+	
+	git merge开发过程：
+	1，a 时间点上 maindev 分出 fa分支
+	2， maindev 开发自己的，fa开发自己的
+	3，定期 fa去同步maindev的改动
+		a, git checkout fa
+		b, git merge maindev
+		c, 解冲突
+			i, 决定 <<< === >>>去留
+			ii, git add 改动的文件
+			iii, git merge --continue
+		d,这时 fa含maindev，并且是最新
+		e，各开发各的
+		f, 最后 maindev去merge fa (其实fa已经是最新的了，这里很简单不用解冲突)
